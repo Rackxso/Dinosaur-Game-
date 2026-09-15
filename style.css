@@ -28,7 +28,7 @@ main {
 .player {
     position: absolute;
     bottom: 0;
-    left: 80px;
+    left: 60px;
     width: 45px;
     height: 60px;
     background-color: #2e8b47;
