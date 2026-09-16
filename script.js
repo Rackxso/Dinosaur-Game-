@@ -2,6 +2,7 @@
 const game = document.querySelector(".game-container")
 const player = document.querySelector(".player");
 
+
 const playerWidth = player.offsetWidth;
 const playerHeight = player.offsetHeight;
 let playerX = player.offsetLeft;
@@ -10,9 +11,13 @@ let playerY = 0;
 let playerVerticalSpeed = 0;
 let gravity = 0.5;
 let onGround = true;
+const groundOffset = 50;
 
 let obstacles = [];
 let onScreen = true;
+
+let setIntervalId = null;
+
 
 //PLAYER
 
@@ -24,7 +29,7 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
-/*  Updates player's vertical position with playerVerticalSpeed substracting graity,
+/*  Updates player's vertical position with playerVerticalSpeed substracting gravity,
     until the player is on the ground again */
 function updatePlayer() {
     playerVerticalSpeed -= gravity;
@@ -36,11 +41,45 @@ function updatePlayer() {
         onGround = true;
     }
 
-    player.style.bottom = `${playerY}px`;
+    player.style.bottom = `${playerY + groundOffset}px`;
 
-    if(!onGround) {
+    if(!onGround && onScreen) {
         requestAnimationFrame(updatePlayer);
     }
+
+}
+
+
+function endGame(){
+    onGround = false;
+    onScreen = false;
+    clearInterval(setIntervalId)
+
+    //Restart button
+    const startBtn = document.createAttribute("startBtn")
+    startBtn.textContent = "Start Game";
+    game.appendChild(startBtn)
+
+    startBtn.addEventListener("click", startGame());
+
+}
+
+
+function obstacleCollision(obstacle, obstacleRight){
+    let gameWidth = game.clientWidth;
+
+    //Right edge of the player
+    let playerRightEdge = playerX + playerWidth;
+    let obstacleWidth = parseFloat(obstacle.style.width);
+    let obstacleLeftEdge = gameWidth - obstacleRight - parseFloat(obstacle.style.width)
+
+    if(obstacleLeftEdge <= playerRightEdge 
+        && obstacleLeftEdge + obstacleWidth >= playerX 
+        && playerY == 0){
+        endGame();
+        game.textContent = "GAME OVER"
+    }
+ 
 
 }
 
@@ -59,13 +98,15 @@ function createObstacle() {
 }
 
 function generateRandomNumber() {
-    return Math.floor((Math.random() * 36) + 20);
+    return Math.floor((Math.random() * 40) + 30);
 }
 
 function updateObstacle() {
     obstacles = obstacles.filter((obstacle) => {
         const obstacleRight = parseFloat(getComputedStyle(obstacle).right) + 5;
         obstacle.style.right = `${obstacleRight}px`;
+
+        obstacleCollision(obstacle, obstacleRight);
 
         if (obstacleRight > game.clientWidth) {
             obstacle.remove();
@@ -75,9 +116,17 @@ function updateObstacle() {
         return true;
     });
 
+    if(onScreen) {
+        requestAnimationFrame(updateObstacle);
+    }
+
+}
+
+
+function startGame(){
+    setIntervalId = setInterval(createObstacle, 2000);
     requestAnimationFrame(updateObstacle);
 
 }
 
-setInterval(createObstacle, 2000);
-requestAnimationFrame(updateObstacle);
+startGame();

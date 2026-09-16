@@ -6,7 +6,8 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f2f2f2;
+    background-color: #000000;
+    color: #fdfdfd;
 }
 
 main {
@@ -18,26 +19,43 @@ main {
 .game-container {
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 350px;
     overflow: hidden;
     border: 3px solid #333;
     border-radius: 8px;
     background-color: #dbe2e6;
+    background-image: url('assets/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    border-radius: 8px 8px 0 0;
+
+
 }
+
+
 
 .player {
     position: absolute;
-    bottom: 0;
+    bottom: 50px;
     left: 60px;
-    width: 45px;
-    height: 60px;
-    background-color: #2e8b47;
+    width: 80px;
+    height: 100px;
+    background-image: url('assets/dino.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    transform: scaleX(-1);
     border-radius: 8px 8px 0 0;
 }
 
 .obstacle {
     position: absolute;
-    bottom: 0;
-    background-color: #8b4513;
-    border-radius: 5px 5px 0 0;
+    bottom: 50px;
+    background-image: url('assets/rock.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    border-radius: 8px 8px 0 0;
+
 }
