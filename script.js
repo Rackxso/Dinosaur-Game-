@@ -18,14 +18,24 @@ let onScreen = true;
 
 let setIntervalId = null;
 
+let bgPositionX = 0;
+
+let gameStarted = false;
 
 //PLAYER
 
 document.addEventListener("keydown", (event) => {
-    if(event.key === " " && onGround) {
-        playerVerticalSpeed = 10;
-        onGround = false
-        updatePlayer();
+    if(event.key === " ") {
+        if(!gameStarted) {
+            gameStarted = true;
+            startGame();
+        }
+
+        if(onGround) {
+            playerVerticalSpeed = 10;
+            onGround = false
+            updatePlayer();
+        }
     }
 })
 
@@ -122,11 +132,22 @@ function updateObstacle() {
 
 }
 
+//Background movement
+function bgMovement(){
+    bgPositionX -= 2;
+    game.style.backgroundPositionX  = `${bgPositionX}px`;
+
+    if(onScreen) {
+        requestAnimationFrame(bgMovement);
+    }
+
+}
+
+
 
 function startGame(){
     setIntervalId = setInterval(createObstacle, 2000);
     requestAnimationFrame(updateObstacle);
+    requestAnimationFrame(bgMovement);
 
 }
-
-startGame();

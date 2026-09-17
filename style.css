@@ -26,8 +26,8 @@ main {
     background-color: #dbe2e6;
     background-image: url('assets/bg.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom center;
+    background-repeat: repeat-x;
+    background-position: bottom left;
     border-radius: 8px 8px 0 0;
 
 
