@@ -65,12 +65,21 @@ function endGame(){
     onScreen = false;
     clearInterval(setIntervalId)
 
-    //Restart button
-    const startBtn = document.createAttribute("startBtn")
-    startBtn.textContent = "Start Game";
-    game.appendChild(startBtn)
+    const gameOverText = document.createElement("div");
+    gameOverText.classList.add("gameOverText")
+    gameOverText.textContent = "GAME OVER";
+    game.appendChild(gameOverText);
 
-    startBtn.addEventListener("click", startGame());
+    //Restart button
+    const startBtn = document.createElement("button");
+    startBtn.classList.add("restartBtn");
+    startBtn.textContent = "Restart";
+    game.appendChild(startBtn);
+
+    startBtn.addEventListener("click", startGame);
+
+    
+
 
 }
 
@@ -87,7 +96,6 @@ function obstacleCollision(obstacle, obstacleRight){
         && obstacleLeftEdge + obstacleWidth >= playerX 
         && playerY == 0){
         endGame();
-        game.textContent = "GAME OVER"
     }
  
 
@@ -143,9 +151,17 @@ function bgMovement(){
 
 }
 
-
+ 
 
 function startGame(){
+    document.querySelector(".gameOverText")?.remove();
+    document.querySelector(".restartBtn")?.remove();
+    document.querySelectorAll(".obstacle").forEach((obstacle) => obstacle.remove());
+
+    onScreen = true;
+    onGround = true;
+    obstacles = [];
+
     setIntervalId = setInterval(createObstacle, 2000);
     requestAnimationFrame(updateObstacle);
     requestAnimationFrame(bgMovement);

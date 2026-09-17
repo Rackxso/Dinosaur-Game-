@@ -59,3 +59,31 @@ main {
     border-radius: 8px 8px 0 0;
 
 }
+
+
+.restartBtn{
+    font-family: "Press Start 2P", monospace;
+    height: 50px;
+    width: 200px;
+    border-radius: 5px;
+    border-color: 1px solid black;
+    border-style: none;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+}
+
+.gameOverText {
+    font-family: "Press Start 2P", monospace;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    font-size: 4rem;
+    color: #000000;
+}
