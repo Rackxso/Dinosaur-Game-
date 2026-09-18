@@ -3,13 +3,12 @@ const game = document.querySelector(".game-container")
 const player = document.querySelector(".player");
 const scoreValue = document.querySelector("#score-value");
 
-const playerWidth = player.offsetWidth;
-const playerHeight = player.offsetHeight;
-let playerX = player.offsetLeft;
+
+
 let playerY = 0;
 
 let playerVerticalSpeed = 0;
-let gravity = 0.5;
+const gravity = 0.5;
 let onGround = true;
 const groundOffset = 50;
 
@@ -82,6 +81,9 @@ function endGame(){
 
 function obstacleCollision(obstacle, obstacleRight){
     let gameWidth = game.clientWidth;
+    
+    const playerX = player.offsetLeft;
+    const playerWidth = player.offsetWidth;
 
     //Right edge of the player
     let playerRightEdge = playerX + playerWidth;
