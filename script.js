@@ -120,8 +120,10 @@ function generateRandomNumber() {
 }
 
 function updateObstacle() {
+    let obstacleSpeed = 5 + Math.floor(score / 5) * 0.5;
+
     obstacles = obstacles.filter((obstacle) => {
-        const obstacleRight = parseFloat(getComputedStyle(obstacle).right) + 5;
+        const obstacleRight = parseFloat(getComputedStyle(obstacle).right) + obstacleSpeed;
         obstacle.style.right = `${obstacleRight}px`;
 
         obstacleCollision(obstacle, obstacleRight);
