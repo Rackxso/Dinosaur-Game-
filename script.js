@@ -1,7 +1,7 @@
 
 const game = document.querySelector(".game-container")
 const player = document.querySelector(".player");
-
+const scoreValue = document.querySelector("#score-value");
 
 const playerWidth = player.offsetWidth;
 const playerHeight = player.offsetHeight;
@@ -21,6 +21,7 @@ let setIntervalId = null;
 let bgPositionX = 0;
 
 let gameStarted = false;
+let score = 0;
 
 //PLAYER
 
@@ -56,7 +57,6 @@ function updatePlayer() {
     if(!onGround && onScreen) {
         requestAnimationFrame(updatePlayer);
     }
-
 }
 
 
@@ -77,10 +77,6 @@ function endGame(){
     game.appendChild(startBtn);
 
     startBtn.addEventListener("click", startGame);
-
-    
-
-
 }
 
 
@@ -90,15 +86,20 @@ function obstacleCollision(obstacle, obstacleRight){
     //Right edge of the player
     let playerRightEdge = playerX + playerWidth;
     let obstacleWidth = parseFloat(obstacle.style.width);
-    let obstacleLeftEdge = gameWidth - obstacleRight - parseFloat(obstacle.style.width)
+    let obstacleLeftEdge = gameWidth - obstacleRight - obstacleWidth;
+    let obstacleRightEdge = obstacleLeftEdge + obstacleWidth;
 
     if(obstacleLeftEdge <= playerRightEdge 
         && obstacleLeftEdge + obstacleWidth >= playerX 
         && playerY == 0){
         endGame();
     }
- 
-
+    
+    if(obstacleRightEdge < playerX && obstacle.dataset.scored !== "true"){
+        score += 1;
+        obstacle.dataset.scored = "true";
+        scoreValue.textContent = score;
+    }
 }
 
 // OBSTACLES
@@ -112,7 +113,6 @@ function createObstacle() {
 
     game.appendChild(obstacle);
     obstacles.push(obstacle);
-
 }
 
 function generateRandomNumber() {
@@ -137,7 +137,6 @@ function updateObstacle() {
     if(onScreen) {
         requestAnimationFrame(updateObstacle);
     }
-
 }
 
 //Background movement
@@ -148,10 +147,7 @@ function bgMovement(){
     if(onScreen) {
         requestAnimationFrame(bgMovement);
     }
-
 }
-
- 
 
 function startGame(){
     document.querySelector(".gameOverText")?.remove();
@@ -161,9 +157,10 @@ function startGame(){
     onScreen = true;
     onGround = true;
     obstacles = [];
+    score = 0;
+    scoreValue.textContent = score;
 
     setIntervalId = setInterval(createObstacle, 2000);
     requestAnimationFrame(updateObstacle);
     requestAnimationFrame(bgMovement);
-
 }
